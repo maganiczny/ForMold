@@ -1,5 +1,7 @@
 <?php
 
+	/*author!*/
+
 	namespace ForMold;
 	
 	class Node {
