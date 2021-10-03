@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class hidden extends \FormBuilder\Input {
+	class Hidden extends \ForMold\Input {
 	
 		public $type 		= 'hidden';
 	

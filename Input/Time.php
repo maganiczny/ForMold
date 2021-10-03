@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class time extends \FormBuilder\Input {
+	class Time extends \ForMold\Input {
 	
 		public $type 		= 'time';
 	

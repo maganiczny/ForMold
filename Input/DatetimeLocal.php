@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class datetimeLocal extends \FormBuilder\Input {
+	class DatetimeLocal extends \FormBuilder\Input {
 	
 		public $type 		= 'datetime-local';
 	

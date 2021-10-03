@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FoRMold\Input;
+	namespace ForMold\Input;
 	
-	class Checkbox extends \FoRMold\Input {
+	class Checkbox extends \ForMold\Input {
 		
 		public $label = true;
 		public $labelRight = true;

@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class image extends \FormBuilder\Input {
+	class Image extends \ForMold\Input {
 	
 		public $type 		= 'image';
 	

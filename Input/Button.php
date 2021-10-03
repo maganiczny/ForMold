@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class button extends \FormBuilder\Input {
+	class Button extends \ForMold\Input {
 	
 		public $type						= 'button';
 		

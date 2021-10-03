@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class password extends \FormBuilder\Input {
+	class Password extends \ForMold\Input {
 	
 		public $type 		= 'password';
 	

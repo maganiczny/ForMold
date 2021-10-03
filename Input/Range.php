@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class range extends \FormBuilder\Input {
+	class Range extends \ForMold\Input {
 	
 		public $type 		= 'range';
 	

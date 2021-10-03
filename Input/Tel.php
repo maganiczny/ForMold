@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class tel extends \FormBuilder\Input {
+	class Tel extends \ForMold\Input {
 	
 		public $type 		= 'tel';
 		

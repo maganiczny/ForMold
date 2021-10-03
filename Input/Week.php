@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class week extends \FormBuilder\Input {
+	class Week extends \ForMold\Input {
 	
 		public $type 		= 'week';
 	

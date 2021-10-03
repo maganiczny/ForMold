@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class url extends \FormBuilder\Input {
+	class Url extends \ForMold\Input {
 	
 		public $type 		= 'url';
 	

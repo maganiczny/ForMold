@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class radio extends \FormBuilder\Input {
+	class Radio extends \ForMold\Input {
 	
 		public $type 		= 'radio';
 	

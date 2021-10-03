@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class month extends \FormBuilder\Input {
+	class Month extends \ForMold\Input {
 	
 		public $type 		= 'month';
 	

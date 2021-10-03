@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class email extends \FormBuilder\Input {
+	class Email extends \ForMold\Input {
 	
 		public $type 		= 'email';
 		

@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class search extends \FormBuilder\Input {
+	class Search extends \ForMold\Input {
 	
 		public $type 		= 'search';
 	

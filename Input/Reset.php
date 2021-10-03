@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class reset extends \FormBuilder\Input {
+	class Reset extends \ForMold\Input {
 	
 		public $type 		= 'reset';
 	

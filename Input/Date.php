@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class date extends \FormBuilder\Input {
+	class Date extends \ForMold\Input {
 	
 		public $type 		= 'date';
 	

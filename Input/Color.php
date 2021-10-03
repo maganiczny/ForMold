@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class color extends \FormBuilder\Input {
+	class Color extends \ForMold\Input {
 	
 		public $type 		= 'color';
 	

@@ -1,8 +1,8 @@
 <?php
 	
-	namespace FormBuilder\input;
+	namespace ForMold\Input;
 	
-	class file extends \FormBuilder\Input {
+	class File extends \ForMold\Input {
 	
 		public $type 		= 'file';
 	
