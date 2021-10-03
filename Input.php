@@ -14,11 +14,6 @@
 		static $defaultType			= 'text';
 		public $node				= 'input';
 		
-		public function checked()
-		{
-			
-		}
-		
 	}
 
 ?>

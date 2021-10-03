@@ -20,8 +20,8 @@
 	
 	$fmd = new \ForMold\ForMold ('./login.php');
 
-	$fmd->add('Login')->required();
-	$fmd->add('Password')->required();
+	$fmd->add('Login')->required()->placeholder('Email');
+	$fmd->add('Password')->required()->label('Hasło');
 	$fmd->add('Remember|checkbox')->checked();
 	$fmd->submit('Login');
 	

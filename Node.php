@@ -7,9 +7,18 @@
 		const FMD_NULL				= FMD_NULL;
 		
 		public $defaults 			= [];
+		public $id_prefix			= 'fmd_';
+		
+		public $globalAttr 			= ['accesskey','class','contenteditable','dir','draggable',
+			'hidden','id','lang','spellcheck','style','tabindex','title','translate'
+		];
+		
+		public $labelRight			= false;
 		
 		public function __construct ()
 		{					
+			$this->attr = array_unique(array_merge($this->attr,$this->globalAttr));
+		
 			if (func_num_args() > 0)
 			{
 				call_user_func_array([$this,'setAttr'],func_get_args());
@@ -38,7 +47,7 @@
 			$attr = func_get_args();
 			
 			//first possibility - 'key','value'
-			if ($countAttr == 2 && is_string($attr[0]) && is_string($attr[1]))
+			if ($countAttr == 2 && is_string($attr[0]) && !empty($attr[1]))
 			{
 				$attr[0] = $this->dashes2CamelCase($attr[0]);
 				$this->{$attr[0]} = $attr[1];
@@ -65,11 +74,61 @@
 		public function required()
 		{
 			$this->required = true;
+			
+			return $this;
+		}
+		
+		public function label($str = null)
+		{
+			if ($str !== null)
+				$this->label = $str;
+			
+			return $this;
+		}
+		public function placeholder($str)
+		{
+			$this->placeholder = $str;
+			
+			return $this;
 		}
 		
 		public function html()
 		{
-			return '<' . $this->node . $this->getAttr() . ' />';
+			$html = '';
+			
+			$wrapLabel = false;
+			
+			if (property_exists($this,'label') && $this->label !== false && property_exists($this,'name'))
+			{
+				$wrapLabel = true;
+				if (!property_exists($this,'id'))
+				{
+					$this->id = $this->id_prefix . $this->name;
+				}
+				
+				if (!is_string($this->label))
+				{
+					$this->label = $this->name;
+				}
+			}
+			
+			if ($wrapLabel)
+			{
+				$html .= '<label for="'.$this->id.'">';
+				if (!$this->labelRight)
+					$html .= $this->label . ' ';
+			}
+			
+			$html .= '<' . $this->node . $this->getAttr() . ' />';
+			
+			if ($wrapLabel)
+			{
+				if ($this->labelRight)
+					$html .= ' ' . $this->label;
+				$html .= '</label>';
+			}
+			
+			return $html;
 		}
 		
 		public function dashes2CamelCase($string, $capitalizeFirstCharacter = false) 
@@ -100,16 +159,17 @@
 			
 			foreach($this->attr as $a)
 			{				
-			
+
 				if (!property_exists($this,$a) || $this->{$a} === FMD_NULL || $this->{$a} === false)
-					continue;
+					continue;	
 				
 				if (is_string($this->{$a}))
 					$args[] = $a . '="' . $this->{$a} . '"';
-				elseif (is_bool($this->{$a}) && $this->{$a})
-					$args[] = $a . '="true"';
+				elseif (is_bool($this->{$a}) && $this->{$a} !== false)
+					$args[] = $a;
 				elseif (is_array($this->{$a}))
 					$args[] = $a . '="' . implode(',',$this->{$a}) . '"';
+					
 			}
 			return ((!empty($args)) ? ' ' : '') . implode(' ',$args);
 		}

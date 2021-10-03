@@ -43,6 +43,8 @@
 		//set default tag for new elements like input, textarea, button, select
 		private $family				= 'input';
 		
+		public $label 				= false;
+		
 		public static function example()
 		{
 			include(str_replace('ForMold.php','example.php',__FILE__));
@@ -50,16 +52,17 @@
 		
 		public function html()
 		{
-			$html = '<form' . $this->getAttr() . '>';
+			$html = [];
 			
 			foreach($this->elements as $e)
 			{
-				$html .= $e->html();
+				if ($this->label == true && !property_exists($e,'label'))
+					$e->label = true;
+				
+				$html[] = $e->html();
 			}
 			
-			$html .= '</form>';
-			
-			return $html;
+			return '<form' . $this->getAttr() . '>' . implode('<br />',$html) . '</form>';
 		}
 		
 		public function add()
