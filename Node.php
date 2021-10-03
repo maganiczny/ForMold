@@ -1,6 +1,7 @@
 <?php
 
 	/*author!*/
+	///aasdfsafsdfsd
 
 	namespace ForMold;
 	
