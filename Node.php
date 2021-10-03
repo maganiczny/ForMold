@@ -6,6 +6,7 @@
 		
 		const FMD_NULL				= FMD_NULL;
 		
+		public $selfClosed			= true;
 		public $defaults 			= [];
 		public $id_prefix			= 'fmd_';
 		
@@ -119,7 +120,18 @@
 					$html .= $this->label . ' ';
 			}
 			
-			$html .= '<' . $this->node . $this->getAttr() . ' />';
+			$html .= '<' . $this->node . $this->getAttr();
+			if ($this->selfClosed)
+				$html .= ' />';
+			else
+			{
+				$html .= '>';
+				
+				if (property_exists($this,'value'))
+					$html .= $this->value;
+				
+				$html .= '</' . $this->node . '>';
+			}
 			
 			if ($wrapLabel)
 			{

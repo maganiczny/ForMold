@@ -91,6 +91,11 @@
 				}			
 			}
 			
+			if ($attr['type'] == 'textarea')
+			{
+				$attr['node'] = 'textarea';
+			}
+			
 			//second possibility - one arg type array
 			elseif ($countAttr == 1 && is_array($fattr[0]))
 			{
