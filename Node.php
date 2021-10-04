@@ -93,6 +93,13 @@
 			return $this;
 		}
 		
+		public function value($val)
+		{
+			$this->value = $val;
+			
+			return $this;
+		}
+		
 		public function html()
 		{
 			$html = '';
