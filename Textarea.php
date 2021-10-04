@@ -8,6 +8,8 @@
 		public $node 			= 'textarea';
 		
 		static $defaultType		= 'textarea';
+		
+		public $type			= 'textarea';
 	
 		public $attr 		= [
 			'id', 'type', 'autofocus', 'checked', 'disabled',

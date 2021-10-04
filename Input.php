@@ -12,6 +12,7 @@
 		];
 		
 		static $defaultType			= 'text';
+		public $type				= 'text';
 		
 		static $types				= [
 			'button','checkbox','color','date','datetimelocal','email','file','hidden',

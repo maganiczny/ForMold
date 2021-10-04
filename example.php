@@ -29,6 +29,7 @@
 	$fmd->submit('Login');
 	
 	echo htmlentities($fmd->html());
+	echo '<br /><br />';
 	echo $fmd->html();
 	
 	
@@ -41,9 +42,11 @@
 	$fmd->add('Name',['required',true]);
 	$fmd->add('Email')->required(); //required() works same as ,['required'=>true]
 	$fmd->add('Comment|textarea');
+	$fmd->add('Comment|nonexistent');
 	$fmd->submit('Add');
 	
 	echo htmlentities($fmd->html());
+	echo '<br /><br />';
 	echo $fmd->html();
 	
 	
@@ -56,6 +59,7 @@
 	$fmd->add('SiteName');
 	
 	echo htmlentities($fmd->html());
+	echo '<br /><br />';
 	echo $fmd->html();
 	
 	
@@ -75,6 +79,7 @@
 	echo htmlentities($fmd->get('Password')->html());
 	echo htmlentities($fmd->get('Login')->html());
 	echo htmlentities($fmd->formClose());
+	echo '<br /><br />';
 	echo $fmd->formOpen();
 	echo $fmd->get('Remember')->html();
 	echo $fmd->get('Password')->html();

@@ -112,13 +112,13 @@
 				$attr = array_merge($attr,$fattr[0]);
 			}
 			
-			if ($attr['type'] == 'textarea')
-			{
-				$attr['node'] = 'textarea';
-			}
-			
 			if ($attr['node'] == null)
-				$attr['node'] = $this->family;
+			{
+				if ($attr['type'] !== null && class_exists('\\ForMold\\' . ucfirst($attr['type'])))
+					$attr['node'] = $attr['type'];
+				else
+					$attr['node'] = $this->family;
+			}
 			
 			$parentClass = '\\ForMold\\' . ucfirst($attr['node']);
 			
@@ -145,11 +145,15 @@
 			
 			if (!class_exists($class))
 			{
-				$class = '\\ForMold\\Input\\Text';
-				$attr['value'] = 'Element '. $attr['node'] . (isset($attr['type']) && $attr['type'] !== null ? ' (' . $attr['type'] . ' type)' : '') . ' not found';
-				$attr['type'] = 'text';
-				$attr['disabled'] = true;
-				$classExists = false;
+				$class = $parentClass;
+				if($attr['node'] !== $attr['type'])
+				{
+					$class = '\\ForMold\\Input\\Text';
+					$attr['value'] = 'Element '. $attr['node'] . (isset($attr['type']) && $attr['type'] !== null ? ' (' . $attr['type'] . ' type)' : '') . ' not found';
+					$attr['type'] = 'text';
+					$attr['disabled'] = true;
+					$classExists = false;
+				}
 			}
 			
 			$el = new $class($attr);
