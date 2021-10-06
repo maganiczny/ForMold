@@ -8,13 +8,14 @@
 		
 		public $selfClosed			= true;
 		public $defaults 			= [];
-		public $id_prefix			= 'fmd_';
+		public $id_prefix			= '_fmd_';
 		
 		public $globalAttr 			= ['accesskey','class','contenteditable','dir','draggable',
 			'hidden','id','lang','spellcheck','style','tabindex','title','translate'
 		];
 		
 		public $labelRight			= false;
+		public $label				= false;
 		
 		public function __construct ()
 		{					
@@ -30,7 +31,13 @@
 		
 		private function setDefaults()
 		{
-			$this->setAttr($this->defaults);
+			foreach($this->defaults as $k=>$v)
+			{
+				if (property_exists($this,$k) || (property_exists($this,$k) && $this->{$k} !== FMD_NULL))
+					continue;
+				
+				$this->setAttr($k,$v);
+			}
 		}
 		
 		
@@ -79,10 +86,19 @@
 			return $this;
 		}
 		
+		public function checked()
+		{
+			$this->checked = true;
+			
+			return $this;
+		}
+		
 		public function label($str = null)
 		{
 			if ($str !== null)
 				$this->label = $str;
+			elseif (property_exists($this,'name') && (!property_exists($this,'label') || !is_string($this->label)))
+				$this->label = $this->name;
 			
 			return $this;
 		}
@@ -119,6 +135,8 @@
 					$this->label = $this->name;
 				}
 			}
+			
+			
 			
 			if ($wrapLabel)
 			{
@@ -217,6 +235,11 @@
 			}
 			//else // else is not needed
 				 return false; // that t
+		}
+		
+		public function phpSelf()
+		{
+			return $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 		}
 		
 	}

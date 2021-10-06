@@ -17,6 +17,7 @@
 	//You can show all this examples using a static method: \ForMold\ForMold::example();
 
 	use \ForMold\ForMold as ForMold;
+	use \ForMold\Validate as Validate;
 
 	//Example 1, simple login form
 	
@@ -85,5 +86,25 @@
 	echo $fmd->get('Password')->html();
 	echo $fmd->get('Login')->html();
 	echo $fmd->formClose();
+	
+	
+	
+	//Example 5, simple login with value for fast test
+	
+	echo '<h4>Example 5</h4>';
+	$fmd = new ForMold (['method'=>'get']);
+	
+	$fmd->add(['email'=>'email, Email'])->value('user@example.com')->required();
+	$fmd->add(['password'=>'pass, Hasło'])->value('test')->required();
+	
+	$fmd->add(['checkbox'=>'remember, Zapamiętaj'])->checked();
+	
+	$fmd->add(['type'=>'submit'])->value('Zaloguj')->checked();
+	
+	echo htmlentities($fmd->html());
+	echo '<br /><br />';
+	echo $fmd->html();
+	
+	$fmdValidate = new Validate();
 	
 ?>

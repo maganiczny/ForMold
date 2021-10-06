@@ -109,7 +109,17 @@
 			//second possibility - one arg type array
 			elseif ($countAttr == 1 && is_array($fattr[0]))
 			{
-				$attr = array_merge($attr,$fattr[0]);
+				if (count($fattr[0]) == 1 && strpos(array_values($fattr[0])[0], ',') !== false)
+				{
+					$attr['type'] = array_keys($fattr[0])[0];
+					$nameLabel = explode(',',array_values($fattr[0])[0]);
+					$attr['name'] = $nameLabel[0];
+					$attr['label'] = $nameLabel[1];
+				}
+				else
+				{
+					$attr = array_merge($attr,$fattr[0]);
+				}
 			}
 			
 			if ($attr['node'] == null)
