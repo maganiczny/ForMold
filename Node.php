@@ -19,6 +19,8 @@
 		
 		static $dataType			= 'string';
 		
+		public $class				= [];
+		
 		public function __construct ()
 		{					
 		
@@ -295,6 +297,28 @@
 		static function selfValidate($data)
 		{
 			return true;
+		}
+		
+		public function addClass()
+		{
+			$args = func_get_args();
+			//case first - one arg
+			if (func_num_args() == 1)
+			{
+				//if string
+				if (is_string($args[0]))
+					$this->class[] = $args[0];
+				//if array
+				elseif (is_array($args[0]))
+					$this->class = array_unique(array_merge([],$this->class,$args[0]));
+			}
+			elseif (func_num_args() > 1)
+			{
+				foreach($args as $arg)
+				{
+					$this->addClass($arg);
+				}
+			}
 		}
 		
 	}

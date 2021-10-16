@@ -319,11 +319,7 @@
 		
 		public function addSubmit($value = null)
 		{
-			return $this->add([
-				'node'	=> 'Input',
-				'name'	=> 'Submit',
-				'value'	=> ($value !== null) ? $value : 'Submit'
-			]);
+			return $this->add('submit|submit')->value(($value !== null) ? $value : 'Submit');
 		}
 		
 		public function removeToken()
