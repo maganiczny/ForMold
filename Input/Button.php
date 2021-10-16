@@ -16,7 +16,7 @@
 				$this->value = $this->name;
 			
 		}
-	
+		
 	}
 	
 ?>

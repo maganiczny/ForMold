@@ -8,7 +8,7 @@
 		
 		public $validable	= true;
 		
-		public function validate (string $input)
+		static function selfValidate ($input)
 		{
 			return filter_var($input, FILTER_VALIDATE_EMAIL);
 		}

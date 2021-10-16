@@ -6,6 +6,8 @@
 		
 		public $type			= 'submit';
 		
+		public $name			= 'submit';
+		
 	}
 
 ?>

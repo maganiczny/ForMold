@@ -17,16 +17,47 @@
 		public $labelRight			= false;
 		public $label				= false;
 		
+		static $dataType			= 'string';
+		
 		public function __construct ()
 		{					
+		
 			$this->attr = array_unique(array_merge($this->attr,$this->globalAttr));
 		
 			if (func_num_args() > 0)
 			{
-				call_user_func_array([$this,'setAttr'],func_get_args());
+				$this->setAttr(...func_get_args());
 			}
 			
 			$this->setDefaults();
+			
+			if (!property_exists($this,'id') && property_exists($this,'name'))
+			{
+				$this->id = $this->id_prefix . $this->name;
+			}
+			
+			if (session_status() == PHP_SESSION_NONE) {
+				session_start();
+			}
+			
+			if (!isset($_SESSION['_fmd']) || !is_array($_SESSION['_fmd']))
+			{
+				$_SESSION['_fmd'] = [];
+			}
+			
+			if (!isset($_SESSION['_fmd']['elements']) || !is_array($_SESSION['_fmd']['elements']))
+			{
+				$_SESSION['_fmd']['elements'] = [];
+			}
+			
+			if (!isset($_SESSION['_fmd']['keys']) || !is_array($_SESSION['_fmd']['keys']))
+			{
+				$_SESSION['_fmd']['keys'] = [];
+			}
+			
+			if (!defined('FMD_OBJECT_EXIST'))
+				define('FMD_OBJECT_EXIST',true);
+			
 		}
 		
 		private function setDefaults()
@@ -59,12 +90,22 @@
 			{
 				$attr[0] = $this->dashes2CamelCase($attr[0]);
 				$this->{$attr[0]} = $attr[1];
+				
+				if ($attr[0] == 'name' && !property_exists($this,'id'))
+				{
+					$this->id = $this->id_prefix . $attr[1];
+				}
 			}
 			
-			//second possibility - only value -> this is action (if parse url)
-			elseif ($countAttr == 1 && is_string($attr[0]) && (filter_var($attr[0], FILTER_VALIDATE_URL) || $this->isPath($attr[0])))
+			//second possibility - only value ->
+			elseif ($countAttr == 1 && is_string($attr[0]))
 			{
-				$this->setAttr('action',$attr[0]);
+				// this is action (if parse url)
+				if (filter_var($attr[0], FILTER_VALIDATE_URL) || $this->isPath($attr[0]))
+					$this->setAttr('action',$attr[0]);
+				// toggle boolean if this bool
+				elseif (property_exists($this,$attr[0]) && is_bool($this->{$attr[0]}))
+					$this->{$attr[0]} = !$this->{$attr[0]};
 			}
 				
 			//third possibility - is pass only one attr and is array []key=>val (isAssoc)
@@ -82,13 +123,6 @@
 		public function required()
 		{
 			$this->required = true;
-			
-			return $this;
-		}
-		
-		public function checked()
-		{
-			$this->checked = true;
 			
 			return $this;
 		}
@@ -125,10 +159,6 @@
 			if (property_exists($this,'label') && $this->label !== false && property_exists($this,'name'))
 			{
 				$wrapLabel = true;
-				if (!property_exists($this,'id'))
-				{
-					$this->id = $this->id_prefix . $this->name;
-				}
 				
 				if (!is_string($this->label))
 				{
@@ -200,6 +230,9 @@
 				if (!property_exists($this,$a) || $this->{$a} === FMD_NULL || $this->{$a} === false)
 					continue;	
 				
+				if (!$this->selfClosed && $a == 'value')
+					continue;
+				
 				if (is_string($this->{$a}))
 					$args[] = $a . '="' . $this->{$a} . '"';
 				elseif (is_bool($this->{$a}) && $this->{$a} !== false)
@@ -240,6 +273,28 @@
 		public function phpSelf()
 		{
 			return $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+		}
+		
+		public function randomString()
+		{
+			 if(!isset($length) || intval($length) <= 8 ){
+				$length = 32;
+			}
+			if (function_exists('random_bytes')) {
+				$rs =  bin2hex(random_bytes($length));
+			}
+			elseif (function_exists('openssl_random_pseudo_bytes')) {
+				$rs =  bin2hex(openssl_random_pseudo_bytes($length));
+			}
+			
+			$rs = time() . $rs . 'j83j!(#)n@0snxA)S(AS09sdm2d0(#@RDS0@($&%^ąółaoif';
+			
+			return hash('sha256',$rs);
+		}
+		
+		static function selfValidate($data)
+		{
+			return true;
 		}
 		
 	}

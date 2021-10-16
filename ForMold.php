@@ -26,6 +26,8 @@
 		protected $attr				= [
 			'id','class','accept-charset','action','autocomplete','enctype','method','name','novalidate','rel','target'
 		];
+		
+		public $node				= 'form';
 							
 		public $defaults			= [
 			'accept-charset'		=> 'utf-8',
@@ -44,6 +46,25 @@
 		private $family				= 'input';
 		
 		public $label 				= false;
+		
+		private $rKey;
+		private $keyLifetime		= 60; // in seconds
+		
+		public $values				= [];
+		
+		public function __construct()
+		{
+			parent::__construct(...func_get_args());
+			
+			foreach($_SESSION['_fmd']['keys'] as $k=>$v)
+			{
+				if ($v < time() - $this->keyLifetime)
+				{
+					unset($_SESSION['_fmd']['keys'][$k]);
+					unset($_SESSION['_fmd']['elements'][$k]);
+				}
+			}
+		}
 		
 		public static function example()
 		{
@@ -64,10 +85,32 @@
 		{
 			$html = [];
 			
-			foreach($this->elements as $e)
+			foreach($this->elements as $k => $e)
 			{
 				if ($this->label == true && !property_exists($e,'label'))
 					$e->label = true;
+				
+				if (property_exists($e,'id'))
+				{
+					$id = $this->elements[$k]->id;
+					
+					$sercz = array_search($id,array_column($this->elements,'id'));
+					
+					while(in_array($id,array_column($this->elements,'id')) && $sercz < $k)
+					{
+						preg_match('/\d+$/i',$id,$lastNumbers);
+					
+						if ($lastNumbers)
+						{
+							$lastNumbers[0]++;
+							$id = preg_replace('/(\d+)$/',''.$lastNumbers[0],$id);
+						}
+						else
+							$id .= '2';
+						
+					}
+					$this->elements[$k]->id = $id;
+				}
 				
 				$html[] = $e->html();
 			}
@@ -77,11 +120,21 @@
 		
 		public function html()
 		{
+			if (!in_array('fmdtoken',array_column($this->elements,'name')))
+				$this->add('fmdtoken|hidden')->value($this->rKey);
+			
 			return $this->formOpen() . $this->formElements() . $this->formClose();
 		}
 		
 		public function add()
 		{
+			if (empty($this->rKey))
+			{
+				$this->rKey = $this->randomString();
+				$_SESSION['_fmd']['lastForm'] = $this->rKey;
+				$_SESSION['_fmd']['keys'][$this->rKey] = time();
+			}
+			
 			$countAttr = func_num_args();
 			$fattr = func_get_args();
 			$attr = [];
@@ -166,12 +219,80 @@
 				}
 			}
 			
+			if (!isset($_SESSION['_fmd']['elements'][$this->rKey]) || !is_array($_SESSION['_fmd']['elements'][$this->rKey]))
+				$_SESSION['_fmd']['elements'][$this->rKey] = [];
+			
+			$thisEl = [
+				'dataType'	=> self::$dataType
+			];
+			
+			if (isset($attr['name']) && $classExists)
+				$_SESSION['_fmd']['elements'][$this->rKey][$attr['name']]  = $thisEl;
+			
 			$el = new $class($attr);
 			
 			$this->elements[] = $el;
 			
 			return $el;
 			
+		}
+		
+		public function validate($elements = null)
+		{
+			
+			$params = func_get_args();
+			$paramsNumber = func_num_args();
+			
+			if (session_status() == PHP_SESSION_NONE) {
+				session_start();
+			}
+			
+			if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+				$data = $this->test_input($_POST);
+			}
+			else
+				$data = $this->test_input($_GET);
+			
+			if (isset($data['fmdtoken']) && isset($_SESSION['_fmd']['elements']))
+			{
+				$csrf_keys = array_keys($_SESSION['_fmd']['elements']);
+				
+				var_dump([$csrf_keys,$_SESSION['_fmd']['keys']]);
+				
+				if (!in_array($data['fmdtoken'],$csrf_keys))
+					return false;
+				
+				if ($elements == null)
+					$elements = $_SESSION['_fmd']['elements'][$data['fmdtoken']];
+				
+				unset($_SESSION['_fmd']['elements'][$data['fmdtoken']]);
+				unset($_SESSION['_fmd']['keys'][$data['fmdtoken']]);
+			}
+			
+			if (!isset($data['submit']) || empty($data['submit']))
+				return false;
+			
+			unset($data['submit']);
+			
+			var_dump($data);
+			return($data);
+		}
+		
+		private function test_input($input)
+		{
+			if (is_string($input))
+			{
+				
+			}
+			elseif (is_array($input))
+			{
+				foreach($input as $k => $i)
+				{
+					$input[$k] = $this->test_input($i);
+				}
+			}
+			
+			return $input;
 		}
 		
 		public function get ($name)
@@ -182,14 +303,16 @@
 			return ($element === false) ? new \ForMold\Input\Text(['disabled'=>true]) : $this->elements[$element];
 		}
 		
-		public function submit()
+		public function addSubmit($value = null)
 		{
 			return $this->add([
 				'node'	=> 'Input',
 				'name'	=> 'Submit',
-				'value'	=> 'Submit'
+				'value'	=> ($value !== null) ? $value : 'Submit'
 			]);
 		}
+		
+		
 	
 	}
 

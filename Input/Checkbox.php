@@ -18,6 +18,17 @@
 			
 			return $this;
 		}
+		
+		public function html()
+		{
+			
+			if (!isset($this->value) && isset($this->label))
+			{
+				$this->value = $this->label;
+			}
+			
+			return parent::html();
+		}
 	
 	}
 	

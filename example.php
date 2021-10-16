@@ -16,8 +16,39 @@
 
 	//You can show all this examples using a static method: \ForMold\ForMold::example();
 
+	function br2nl($string)
+	{
+		return preg_replace('/\<br(\s*)?\/?\>/i', "\n", $string);
+	}
+
 	use \ForMold\ForMold as ForMold;
 	use \ForMold\Validate as Validate;
+
+	//Example 5, simple login with value for fast test validation
+	
+	echo '<h4>Example 5</h4>';
+	//$fmd = new ForMold (['method'=>'get']);
+	$fmd = new ForMold (['values'=>$_POST]);
+	
+	$fmd->add(['email'=>'email, Email'])->value('user@example.com')->required();
+	$fmd->add(['password'=>'pass, Hasło'])->value('test')->required();
+	
+	$fmd->add(['checkbox'=>'remember, Zapamiętaj'])->checked();
+	
+	$fmd->add('wybor|radio')->Label('Ziemniak');
+	$fmd->add('wybor|radio')->Label('Ogórek')->checked();
+	$fmd->add('wybor|radio')->Label('Marchewka');
+	
+	$fmd->add('lista|select')->addOption('opcja 1')->addOption('opcja 2');
+	
+	$fmd->add(['type'=>'submit'])->value('Send')->required();
+	
+	echo nl2br(htmlentities(br2nl($fmd->html())));
+	echo '<br /><br />';
+	echo $fmd->html();
+	
+	if (isset($_POST))
+		$fmd = (new ForMold())->validate();
 
 	//Example 1, simple login form
 	
@@ -27,9 +58,9 @@
 	$fmd->add('Login')->required()->placeholder('Email');
 	$fmd->add('Password')->required()->label('Hasło')->value('treść');
 	$fmd->add('Remember|checkbox')->checked();
-	$fmd->submit('Login');
+	$fmd->addSubmit('Login');
 	
-	echo htmlentities($fmd->html());
+	echo nl2br(htmlentities(br2nl($fmd->html())));
 	echo '<br /><br />';
 	echo $fmd->html();
 	
@@ -44,9 +75,9 @@
 	$fmd->add('Email')->required(); //required() works same as ,['required'=>true]
 	$fmd->add('Comment|textarea');
 	$fmd->add('Comment|nonexistent');
-	$fmd->submit('Add');
+	$fmd->addSubmit('Add');
 	
-	echo htmlentities($fmd->html());
+	echo nl2br(htmlentities(br2nl($fmd->html())));
 	echo '<br /><br />';
 	echo $fmd->html();
 	
@@ -59,7 +90,7 @@
 	
 	$fmd->add('SiteName');
 	
-	echo htmlentities($fmd->html());
+	echo nl2br(htmlentities(br2nl($fmd->html())));
 	echo '<br /><br />';
 	echo $fmd->html();
 	
@@ -73,13 +104,13 @@
 	$fmd->add('Login')->required()->placeholder('Email');
 	$fmd->add('Password')->required();
 	$fmd->add('Remember|checkbox')->checked();
-	$fmd->submit('Login');
+	$fmd->addSubmit('Login');
 	
-	echo htmlentities($fmd->formOpen());
-	echo htmlentities($fmd->get('Remember')->html());
-	echo htmlentities($fmd->get('Password')->html());
-	echo htmlentities($fmd->get('Login')->html());
-	echo htmlentities($fmd->formClose());
+	echo htmlentities($fmd->formOpen()).'<br />';
+	echo htmlentities($fmd->get('Remember')->html()).'<br />';
+	echo htmlentities($fmd->get('Password')->html()).'<br />';
+	echo htmlentities($fmd->get('Login')->html()).'<br />';
+	echo htmlentities($fmd->formClose()).'<br />';
 	echo '<br /><br />';
 	echo $fmd->formOpen();
 	echo $fmd->get('Remember')->html();
@@ -89,22 +120,6 @@
 	
 	
 	
-	//Example 5, simple login with value for fast test
 	
-	echo '<h4>Example 5</h4>';
-	$fmd = new ForMold (['method'=>'get']);
-	
-	$fmd->add(['email'=>'email, Email'])->value('user@example.com')->required();
-	$fmd->add(['password'=>'pass, Hasło'])->value('test')->required();
-	
-	$fmd->add(['checkbox'=>'remember, Zapamiętaj'])->checked();
-	
-	$fmd->add(['type'=>'submit'])->value('Zaloguj')->checked();
-	
-	echo htmlentities($fmd->html());
-	echo '<br /><br />';
-	echo $fmd->html();
-	
-	$fmdValidate = new Validate();
 	
 ?>
