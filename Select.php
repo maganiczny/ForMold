@@ -20,6 +20,8 @@
 		
 		public $options			= [];
 		
+		public $selected		= null;
+		
 		public function addOption($name,$value = null)
 		{
 			if (is_string($name))
@@ -40,6 +42,13 @@
 			return $this;
 		}
 		
+		public function selected($sel)
+		{
+			$this->selected = $sel;
+			
+			return $this;
+		}
+		
 		public function html()
 		{
 			
@@ -47,7 +56,7 @@
 			
 			foreach($this->options as $opt)
 			{
-				$value .= "\n<option value=\"".$opt['value']."\">".$opt['name']."</option>";
+				$value .= "\n<option value=\"".$opt['value']."\"".(($this->selected == $opt['value']) ? " selected" : "").">".$opt['name']."</option>";
 			}
 			
 			$this->value = $value."\n";
