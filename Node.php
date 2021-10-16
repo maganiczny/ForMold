@@ -239,7 +239,7 @@
 					$args[] = $a . '="' . $this->{$a} . '"';
 				elseif (is_bool($this->{$a}) && $this->{$a} !== false)
 					$args[] = $a;
-				elseif (is_array($this->{$a}))
+				elseif (is_array($this->{$a}) && !empty($this->{$a}))
 					$args[] = $a . '="' . implode(',',$this->{$a}) . '"';
 					
 			}
