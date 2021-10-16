@@ -24,14 +24,16 @@
 	use \ForMold\ForMold as ForMold;
 	use \ForMold\Validate as Validate;
 
-	//Example 5, simple login with value for fast test validation
+	//Example 1, simple login with value for fast test validation
 	
-	echo '<h4>Example 5</h4>';
+	echo '<h4>Example 1</h4>';
 	//$fmd = new ForMold (['method'=>'get']);
 	$fmd = new ForMold (['values'=>$_POST]);
 	
 	$fmd->add(['email'=>'email, Email'])->value('user@example.com')->required();
 	$fmd->add(['password'=>'pass, Hasło'])->value('test')->required();
+	$fmd->add('Name,name|textarea')->value('test')->required();
+	$fmd->add('dezd')->label()->value('test2')->required();
 	
 	$fmd->add(['checkbox'=>'remember, Zapamiętaj'])->checked();
 	
@@ -50,9 +52,11 @@
 	if (isset($_POST))
 		$fmd = (new ForMold())->validate();
 
-	//Example 1, simple login form
+
+
+	//Example 2, simple login form
 	
-	echo '<h4>Example 1</h4>';
+	echo '<h4>Example 2</h4>';
 	$fmd = new ForMold ('./login.php');
 
 	$fmd->add('Login')->required()->placeholder('Email');
@@ -66,9 +70,9 @@
 	
 	
 	
-	//Example 2, form to add comment
+	//Example 3, form to add comment
 
-	echo '<h4>Example 2</h4>';
+	echo '<h4>Example 3</h4>';
 	$fmd = new ForMold ('./comment.php');
 	
 	$fmd->add('Name',['required',true]);
@@ -83,9 +87,9 @@
 	
 	
 	
-	//Example 3, simple settings form with labels
+	//Example 4, simple settings form with labels
 	
-	echo '<h4>Example 3</h4>';
+	echo '<h4>Example 4</h4>';
 	$fmd = new ForMold (['action'=>'./action.php','label'=>true]);
 	
 	$fmd->add('SiteName');
@@ -96,9 +100,9 @@
 	
 	
 	
-	//Example 4, simple login form but You can get each element
+	//Example 5, simple login form but You can get each element
 	
-	echo '<h4>Example 4</h4>';
+	echo '<h4>Example 5</h4>';
 	$fmd = new ForMold ('./login.php');
 
 	$fmd->add('Login')->required()->placeholder('Email');

@@ -147,16 +147,16 @@
 			//it always family node: input
 			if ($countAttr == 1 && is_string($fattr[0]))
 			{
-				if (strpos($fattr[0], '|') === false)
-				{
-					$attr['name'] = $fattr[0];
-				}
-				else
-				{
-					$fattr[0] = explode('|',$fattr[0]);
-					$attr['name'] = $fattr[0][0];
-					$attr['type'] = $fattr[0][1];
-				}				
+				preg_match('/^(?:(?P<label>.+)\s*,\s*)?(?P<name>[^,|]+)(?:\|(?P<type>.+))?$/i',$fattr[0],$match_attr);
+
+				if (!empty($match_attr['name']))
+					$attr['name'] = $match_attr['name'];
+
+				if (!empty($match_attr['type']))
+					$attr['type'] = $match_attr['type'];
+
+				if (!empty($match_attr['label']))
+					$attr['label'] = $match_attr['label'];
 			}
 			
 			//second possibility - one arg type array
@@ -257,16 +257,14 @@
 			{
 				$csrf_keys = array_keys($_SESSION['_fmd']['elements']);
 				
-				var_dump([$csrf_keys,$_SESSION['_fmd']['keys']]);
-				
 				if (!in_array($data['fmdtoken'],$csrf_keys))
 					return false;
+				
+				$this->rKey = $data['fmdtoken'];
 				
 				if ($elements == null)
 					$elements = $_SESSION['_fmd']['elements'][$data['fmdtoken']];
 				
-				unset($_SESSION['_fmd']['elements'][$data['fmdtoken']]);
-				unset($_SESSION['_fmd']['keys'][$data['fmdtoken']]);
 			}
 			
 			if (!isset($data['submit']) || empty($data['submit']))
@@ -312,7 +310,11 @@
 			]);
 		}
 		
-		
+		public function removeToken()
+		{
+			unset($_SESSION['_fmd']['elements'][$this->rKey]);
+			unset($_SESSION['_fmd']['keys'][$this->rKey]);
+		}
 	
 	}
 
