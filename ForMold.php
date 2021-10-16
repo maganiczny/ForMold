@@ -223,7 +223,10 @@
 				$_SESSION['_fmd']['elements'][$this->rKey] = [];
 			
 			$thisEl = [
-				'dataType'	=> self::$dataType
+				'dataType'	=> self::$dataType,
+				'class'		=> $class,
+				'type'		=> $attr['type'],
+				'name'		=> isset($attr['name']) ? $attr['name'] : null
 			];
 			
 			if (isset($attr['name']) && $classExists)
@@ -267,6 +270,15 @@
 				
 			}
 			
+			foreach ($elements as $k => $e)
+			{
+				if (isset($e['type']))
+				{
+					if ($e['type'] == 'checkbox')
+						$data[$e['name']] = (isset($data[$e['name']]));
+				}
+			}
+			
 			if (!isset($data['submit']) || empty($data['submit']))
 				return false;
 			
@@ -298,6 +310,11 @@
 			$element = array_search($name,$names);
 			
 			return ($element === false) ? new \ForMold\Input\Text(['disabled'=>true]) : $this->elements[$element];
+		}
+		
+		public function getHtml($name)
+		{
+			return $this->get($name)->html();
 		}
 		
 		public function addSubmit($value = null)

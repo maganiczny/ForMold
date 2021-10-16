@@ -41,7 +41,11 @@
 	$fmd->add('wybor|radio')->Label('Ogórek')->checked();
 	$fmd->add('wybor|radio')->Label('Marchewka');
 	
-	$fmd->add('lista|select')->addOption('opcja 1')->addOption('opcja 2');
+	$fmd->add('lista|select')->addOption('opcja 1')->addOption('opcja 2','exampleValue123');
+	$fmd->add('lista2|select')->addOption([
+		'val1'=>'opt1',
+		'vv'=>'opt2'
+	])->label('wybierz sobie');
 	
 	$fmd->add(['type'=>'submit'])->value('Send')->required();
 	
@@ -56,8 +60,6 @@
 		var_dump($data);
 		$fmd->removeToken();
 	}
-
-
 
 	//Example 2, simple login form
 	

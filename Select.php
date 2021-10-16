@@ -20,13 +20,22 @@
 		
 		public $options			= [];
 		
-		public function addOption($title,$name = null)
+		public function addOption($name,$value = null)
 		{
-			
-			if ($name !== null)
-				$this->options[$name] = $title;
-			else
-				$this->options[] = $title;
+			if (is_string($name))
+			{
+				if ($value === null)
+					$value = $name;
+				
+				$this->options[] = ['name'=>$name,'value'=>$value];
+			}
+			elseif (is_array($name))
+			{
+				foreach($name as $v=>$n)
+				{
+					$this->addOption($n,$v);
+				}
+			}
 			
 			return $this;
 		}
@@ -36,9 +45,9 @@
 			
 			$value = '';
 			
-			foreach($this->options as $name => $opt)
+			foreach($this->options as $opt)
 			{
-				$value .= "\n<option value=\"".$name."\">".$opt."</option>";
+				$value .= "\n<option value=\"".$opt['value']."\">".$opt['name']."</option>";
 			}
 			
 			$this->value = $value."\n";
