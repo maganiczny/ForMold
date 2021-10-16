@@ -272,7 +272,6 @@
 			
 			unset($data['submit']);
 			
-			var_dump($data);
 			return($data);
 		}
 		

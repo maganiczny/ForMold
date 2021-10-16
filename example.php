@@ -50,7 +50,12 @@
 	echo $fmd->html();
 	
 	if (isset($_POST))
-		$fmd = (new ForMold())->validate();
+	{
+		$fmd = new ForMold();
+		$data = $fmd->validate();
+		var_dump($data);
+		$fmd->removeToken();
+	}
 
 
 
