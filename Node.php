@@ -235,12 +235,12 @@
 				if (!$this->selfClosed && $a == 'value' && $this->type !== 'submit')
 					continue;
 				
-				if (is_string($this->{$a}))
-					$args[] = $a . '="' . $this->{$a} . '"';
-				elseif (is_bool($this->{$a}) && $this->{$a} !== false)
+				if (is_bool($this->{$a}) && $this->{$a} !== false)
 					$args[] = $a;
 				elseif (is_array($this->{$a}) && !empty($this->{$a}))
 					$args[] = $a . '="' . implode(' ',$this->{$a}) . '"';
+				else
+					$args[] = $a . '="' . $this->{$a} . '"';
 					
 			}
 			return ((!empty($args)) ? ' ' : '') . implode(' ',$args);
