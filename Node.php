@@ -240,7 +240,7 @@
 				elseif (is_bool($this->{$a}) && $this->{$a} !== false)
 					$args[] = $a;
 				elseif (is_array($this->{$a}) && !empty($this->{$a}))
-					$args[] = $a . '="' . implode(',',$this->{$a}) . '"';
+					$args[] = $a . '="' . implode(' ',$this->{$a}) . '"';
 					
 			}
 			return ((!empty($args)) ? ' ' : '') . implode(' ',$args);
