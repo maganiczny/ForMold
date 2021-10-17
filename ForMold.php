@@ -270,12 +270,15 @@
 				
 			}
 			
-			foreach ($elements as $k => $e)
+			if (is_array($elements))
 			{
-				if (isset($e['type']))
+				foreach ($elements as $k => $e)
 				{
-					if ($e['type'] == 'checkbox')
-						$data[$e['name']] = (isset($data[$e['name']]));
+					if (isset($e['type']))
+					{
+						if ($e['type'] == 'checkbox')
+							$data[$e['name']] = (isset($data[$e['name']]));
+					}
 				}
 			}
 			
