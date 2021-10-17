@@ -309,6 +309,9 @@
 		
 		public function get ($name)
 		{
+			if (!in_array('fmdtoken',array_column($this->elements,'name')))
+				$this->add('fmdtoken|hidden')->value($this->rKey);
+			
 			$names = array_column($this->elements,'name');
 			$element = array_search($name,$names);
 			
