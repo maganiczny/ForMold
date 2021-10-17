@@ -232,7 +232,7 @@
 				if (!property_exists($this,$a) || $this->{$a} === FMD_NULL || $this->{$a} === false)
 					continue;	
 				
-				if (!$this->selfClosed && $a == 'value')
+				if (!$this->selfClosed && $a == 'value' && $this->type !== 'submit')
 					continue;
 				
 				if (is_string($this->{$a}))
