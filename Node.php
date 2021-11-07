@@ -119,7 +119,9 @@
 						$this->setAttr($k,$v);
 				}
 			}
-				
+			
+			return $this;
+			
 		}
 		
 		public function required()
