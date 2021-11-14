@@ -228,6 +228,8 @@
 		{
 			$args = [];
 			
+			$vals = [];
+			
 			foreach($this->attr as $a)
 			{				
 
@@ -237,14 +239,27 @@
 				if (!$this->selfClosed && $a == 'value' && $this->type !== 'submit')
 					continue;
 				
+				if (empty($this->{$a}))
+					continue;
+				
 				if (is_bool($this->{$a}) && $this->{$a} !== false)
-					$args[] = $a;
-				elseif (is_array($this->{$a}) && !empty($this->{$a}))
-					$args[] = $a . '="' . implode(' ',$this->{$a}) . '"';
+					$arg = $a;
+				elseif (is_array($this->{$a}))
+					$arg = $a . '="' . implode(' ',$this->{$a}) . '"';
 				else
-					$args[] = $a . '="' . $this->{$a} . '"';
+					$arg = $a . '="' . $this->{$a} . '"';
 					
+				$exparg = explode('=',$arg);
+				if (count($exparg) > 1)
+					$vals[] = $exparg[1];
+				else
+					$vals[] = '';
+					
+				$args[] = $arg;	
 			}
+			
+			array_multisort($vals,SORT_DESC,SORT_STRING,$args);
+			
 			return ((!empty($args)) ? ' ' : '') . implode(' ',$args);
 		}
 		
