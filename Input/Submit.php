@@ -8,6 +8,7 @@
 		
 		public $name			= 'submit';
 		
+		static $bootstrapClass	= ['btn','btn-primary'];
 	}
 
 ?>

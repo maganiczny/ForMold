@@ -52,6 +52,8 @@
 		
 		public $values				= [];
 		
+		public $bootstrap			= false;
+		
 		public function __construct()
 		{
 			parent::__construct(...func_get_args());
@@ -112,10 +114,15 @@
 					$this->elements[$k]->id = $id;
 				}
 				
+				if (!empty($e::$bootstrapClass))
+				{
+					$e->addClass($e::$bootstrapClass);
+				}
+				
 				$html[] = $e->html();
 			}
 			
-			return implode('<br />',$html);
+			return implode("<br />\n",$html);
 		}
 		
 		public function html()

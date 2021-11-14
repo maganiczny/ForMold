@@ -6,7 +6,7 @@
 	
 		public $type						= 'button';
 		
-		public $bootstrap4ClassInput		= ['btn','btn-primary'];
+		static $bootstrapClass				= ['btn','btn-primary'];
 	
 		public function __construct ($params) {
 			

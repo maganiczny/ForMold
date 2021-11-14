@@ -19,6 +19,8 @@
 		
 		static $dataType			= 'string';
 		
+		static $bootstrapClass		= [];
+		
 		public $class				= [];
 		
 		public function __construct ()
@@ -256,6 +258,7 @@
 					$vals[] = '';
 					
 				$args[] = $arg;	
+				
 			}
 			
 			array_multisort($vals,SORT_DESC,SORT_STRING,$args);

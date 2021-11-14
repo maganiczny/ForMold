@@ -16,6 +16,8 @@
 			'value', 'class'
 		];
 		
+		static $bootstrapClass	= ['btn','btn-primary'];
+		
 	}
 	
 ?>
