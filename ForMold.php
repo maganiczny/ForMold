@@ -114,9 +114,13 @@
 					$this->elements[$k]->id = $id;
 				}
 				
-				if (!empty($e::$bootstrapClass))
+				if ($this->bootstrap)
 				{
-					$e->addClass($e::$bootstrapClass);
+					if (!empty($e::$bootstrapClass))
+					{
+						$e->addClass($e::$bootstrapClass);
+					}
+					$e->addClass('mb-2');
 				}
 				
 				$html[] = $e->html();
