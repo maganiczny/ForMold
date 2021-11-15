@@ -296,7 +296,11 @@
 			if (!isset($data['submit']) || empty($data['submit']))
 				return false;
 			
-			unset($data['submit']);
+			if (isset($data['submit']))
+				unset($data['submit']);
+			
+			if (isset($data['fmdtoken']))
+				unset($data['fmdtoken']);
 			
 			return($data);
 		}
