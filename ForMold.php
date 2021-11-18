@@ -80,6 +80,7 @@
 		
 		public function formClose()
 		{
+			
 			return '</form>';
 		}
 		
@@ -266,6 +267,9 @@
 			}
 			else
 				$data = $this->test_input($_GET);
+			
+			if (!isset($data['fmdtoken']) && $elements == null)
+				return false;
 			
 			if (isset($data['fmdtoken']) && isset($_SESSION['_fmd']['elements']))
 			{
